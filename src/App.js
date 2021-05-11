@@ -1,43 +1,49 @@
 import { useContext } from 'react';
 import './App.css';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import { TaskProvider ,TaskContext } from './apis/Context';
+import { useTaskState, useTaskDispatch, TaskProvider } from './apis/Context';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Index from './components/Index';
 import TaskList from './components/TaskList';
 import NotFound from './page/NotFound';
 
-
 function App() {
-const test = useContext(TaskContext)
+  const state = useTaskState();
+  const dispatch = useTaskDispatch();
 
   console.log('====================================');
-  console.log(test);
+  console.log('App() state, dispatch : ', state, dispatch);
   console.log('====================================');
   return (
     <TaskProvider>
-      <BrowserRouter>
+      <Router>
         <div className='App'>
           <Header />
 
+          <hr />
+          <br />
+          <br />
+          <br />
+          <br />
           <Switch>
             <Route exact path='/' component={Index} />
             <Route
-              exact
-              path='/tasklist'
-              render={(props) => <TaskList {...props} />}
+              exact path='/tasklist'
+              component={TaskList}
             />
-            <br />
-            <br />
-            <br />
-            <br />
+          
             <Route component={NotFound} />
           </Switch>
+          <br />
+          <br />
+          <br />
+          <br />
+          <hr />
           <Footer />
         </div>
-      </BrowserRouter>
+      </Router>
     </TaskProvider>
   );
 }
